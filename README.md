@@ -83,3 +83,10 @@ TypeScript, React, Next.js 14 (App Router), Tailwind CSS, Supabase
 `@supabase/supabase-js`. Built by Bhavya Patel — B.Tech Computer Science
 and Design, GCET Anand; Master of Business Analytics, Deakin University,
 GIFT City.
+
+## What I would do differently
+
+- The SQL was verified live on Supabase on 13 Nov 2026, but per-seller RLS policies are still not implemented. I would add the seller-scoped policies (`seller_id = current_seller_id()`) so a seller can only see their own listings, orders and payouts.
+- The seller dashboard currently shows the first active demo seller rather than the signed-in seller. I would fix that first, since it is the page a seller would judge the product by.
+- There is no checkout or payment flow, and stock does not decrement when an order is placed. I would build checkout (without claiming any payment provider is connected) and stock decrement next.
+- The seed is run-once (a second run errors on duplicate keys). I would add `ON CONFLICT DO NOTHING` so the demo can be reset cleanly.
