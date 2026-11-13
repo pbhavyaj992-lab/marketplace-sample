@@ -8,9 +8,11 @@ OS, or from any other product.
 
 > **Status: sample / demo — not production-ready.** The storefront,
 > listings, orders and payout-due flows work end to end against a real
-> Supabase project. Checkout/payments, seller onboarding and per-seller
-> login are not yet built (see "Not yet implemented"). All seed data is
-> fictional demo data. No money moves in this sample.
+> Supabase project — verified live 13 Nov 2026 in demo project
+> bhavya-demo-crm-marketplace (ref axvpeagvzpnjlkxbttho), all checks
+> passed. Checkout/payments, seller onboarding and per-seller login are
+> not yet built (see "Not yet implemented"). All seed data is fictional
+> demo data. No money moves in this sample.
 
 ## What is implemented
 
@@ -73,19 +75,6 @@ npm run build
 - Seller listing management from the UI (create/edit/pause a listing)
 - Stock decrement on order placement, refunds handling beyond status, dispute handling, search beyond title/category
 - Sign-up / sign-in UI (use Supabase Auth or add an auth page), roles, audit log, automated tests
-
-## Internal pricing (INTERNAL ONLY — never publish on the portfolio)
-
-Planning prices for a client build based on this sample:
-
-- **Basic — ₹60,000:** storefront, listings and categories, seller dashboard, orders, commission and payout-due reporting, one marketplace tenant, setup on the client's Supabase project
-- **Standard — ₹1,00,000:** everything in Basic, plus seller onboarding and per-seller login with seller-scoped RLS, seller listing management, cart and checkout wiring to the client's payment provider, stock decrement on order
-- **Premium — ₹1,50,000:** everything in Standard, plus refunds and disputes flow, reports and dashboards, training and 30 days of support
-
-Prices are starting points for a quote; confirm scope and price with the
-client in writing before work starts. 50% advance is the usual pattern for
-custom builds (confirm per client). Payment-provider fees are the client's
-own cost, not included in these prices.
 
 ## Tech
 

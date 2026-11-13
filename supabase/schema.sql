@@ -78,7 +78,10 @@ create index if not exists shipments_tenant_idx on public.shipments (tenant_id, 
 -- Payout-due view: delivered orders only. Cancelled/refunded orders
 -- contribute nothing. This is the single source of truth for /payouts
 -- and must match src/lib/commission.ts payoutDue().
-create or replace view public.seller_payout_due as
+-- security_invoker = true so the view respects the caller's RLS
+-- instead of bypassing it as an owner view (fixed 13 Nov 2026: the
+-- original view had no tenant filter and leaked across tenants).
+create or replace view public.seller_payout_due with (security_invoker = true) as
   select s.id as seller_id, s.shop_name,
     coalesce(sum(oi.qty * oi.unit_price_inr), 0) as total_gross_inr,
     coalesce(sum(oi.commission_inr), 0) as total_commission_inr,
@@ -98,6 +101,11 @@ alter table public.reviews enable row level security;
 alter table public.shipments enable row level security;
 create or replace function public.current_tenant_id() returns uuid language sql security definer stable as
   $$ select tenant_id from public.profiles where id = auth.uid() $$;
+-- Compatibility: the CRM sample creates public.profiles WITHOUT
+-- seller_id. When both samples share one project, the CREATE TABLE IF
+-- NOT EXISTS above is a no-op, so add the column idempotently here
+-- before anything references it.
+alter table public.profiles add column if not exists seller_id uuid;
 create or replace function public.current_seller_id() returns uuid language sql security definer stable as
   $$ select seller_id from public.profiles where id = auth.uid() $$;
 drop policy if exists "own profile" on public.profiles;
